@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="SettingSliderDef" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://addons/settings/setting_slider_def.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+key = &"master_volume"
+label = "Master volume"
+category = &"audio"
+apply_as = 1
+apply_target = &"Master"
+step = 0.05
+default_value = 1.0

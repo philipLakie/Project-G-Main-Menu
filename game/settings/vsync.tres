@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="SettingToggleDef" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://addons/settings/setting_toggle_def.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+key = &"vsync"
+label = "Vsync"
+category = &"video"
+apply_as = 3
+default_value = true
