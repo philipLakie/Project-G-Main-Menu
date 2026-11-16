@@ -14,3 +14,16 @@ export_credentials.cfg
 .mono/
 data_*/
 mono_crash.*.json
+
+# Android build template
+/android/
+
+# Private working docs
+AGENTS.md
+specs/
+
+# Temp copies Godot makes of loaded extension libraries
+~*
+
+# Editor git plugin: install per machine (41 MB of binaries)
+addons/godot-git-plugin/
