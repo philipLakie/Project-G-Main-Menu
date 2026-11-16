@@ -20,6 +20,7 @@ func before_each() -> void:
 
 
 func after_each() -> void:
+	get_tree().paused = false
 	if FileAccess.file_exists(PATH):
 		DirAccess.remove_absolute(PATH)
 
@@ -232,3 +233,9 @@ func test_definition_without_category_has_no_heading() -> void:
 	screen.setup(_make_store([plain]))
 	assert_true(_row_names(screen).has("plain"))
 	assert_false(_row_names(screen).has("Category_"))
+
+
+func test_settings_screen_runs_while_tree_paused() -> void:
+	get_tree().paused = true
+	assert_true(_screen.can_process())
+	assert_true(_value(_screen, "hints").can_process())

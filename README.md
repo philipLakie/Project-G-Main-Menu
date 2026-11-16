@@ -3,7 +3,7 @@
 Plain, ready-made menu screens for any game: main menu, pause menu and settings screen. They are deliberately unstyled. Each game supplies its own Theme and decides what the buttons do.
 
 - **Status:** Experimental (`v0.1.0`)
-- **Built so far:** `MenuMainScreen` and `MenuSettingsScreen`. The pause menu is not implemented yet.
+- **Built so far:** `MenuMainScreen`, `MenuPauseScreen` and `MenuSettingsScreen`.
 - **Mount path:** `addons/menu_screens/`
 - **Class prefix:** `Menu`
 - **Depends on:** `settings` `v0.1.0` or newer (the settings screen reads its definitions and store)
@@ -60,7 +60,13 @@ Exports:
 
 Signals: `resume_pressed`, `settings_pressed`, `main_menu_pressed`, `quit_pressed`, `back_requested`
 
-Pressing Resume emits both `resume_pressed` and `back_requested`.
+Pressing Resume emits both `resume_pressed` and `back_requested`. Settings, Main menu and Quit do not emit `back_requested`.
+
+Method: `get_initial_focus() -> Control` returns Resume. If hiding Quit hides the focused button, focus moves to Resume.
+
+The screen runs while the tree is paused (`process_mode` Always). It never pauses or unpauses the tree itself; the game, or `screen_nav` with `pause_while_open`, does that.
+
+Scene-unique nodes: `%Title`, `%ResumeButton`, `%SettingsButton`, `%MainMenuButton`, `%QuitButton`.
 
 ### `MenuSettingsScreen` (`settings_screen.tscn`)
 
@@ -88,6 +94,8 @@ Method: `get_initial_focus() -> Control` returns the first setting's control, or
 Export: `free_slider_presses: int = 20`. A slider whose definition has `step = 0` does not move with the keyboard or gamepad on its own, so the screen moves it by its range divided by this many presses. Mouse dragging stays unsnapped.
 
 The list scrolls to follow focus, so keyboard and gamepad reach rows below the visible area.
+
+The screen runs while the tree is paused (`process_mode` Always), so it works when opened from the pause menu.
 
 Node layout, for tests and for games that need to reach a row: `%Rows` holds a `Label` named `Category_<category>` before each category's rows, and one `HBoxContainer` per setting, named after its key, with children `Name` (the label) and `Value` (the control). The buttons are `%ResetButton` and `%BackButton`.
 
