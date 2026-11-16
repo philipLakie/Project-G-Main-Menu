@@ -139,6 +139,23 @@ func test_duplicate_key_is_reported() -> void:
 	assert_push_error("share the key")
 
 
+func test_get_definitions_skips_empty_slots_and_duplicates() -> void:
+	var defs := _defs()
+	var duplicate := SettingToggleDef.new()
+	duplicate.key = &"hints"
+	defs.insert(1, null)
+	defs.append(duplicate)
+	var store := _store(defs)
+	var listed := store.get_definitions()
+	assert_eq(listed.size(), 3)
+	assert_false(listed.has(null))
+	assert_false(listed.has(duplicate))
+	assert_eq(listed[0].key, &"hints", "listed order is kept")
+	listed.clear()
+	assert_eq(store.get_definitions().size(), 3, "callers cannot change the store's list")
+	assert_push_error("share the key")
+
+
 func test_applier_sets_and_mutes_audio_bus() -> void:
 	AudioServer.add_bus()
 	var bus := AudioServer.bus_count - 1

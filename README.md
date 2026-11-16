@@ -56,7 +56,7 @@ Methods:
 - `get_value(key: StringName) -> Variant`
 - `set_value(key: StringName, value: Variant) -> void`
 - `reset(key: StringName) -> void` and `reset_all() -> void`
-- `get_definition(key: StringName) -> SettingDef` and `get_definitions() -> Array[SettingDef]`
+- `get_definition(key: StringName) -> SettingDef` and `get_definitions() -> Array[SettingDef]` (a copy, in listed order, without empty slots or ignored duplicates)
 - `save_to_disk() -> Error` and `load_from_disk() -> Error`
 
 Signals:

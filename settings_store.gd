@@ -14,6 +14,7 @@ const _SECTION := "settings"
 @export var auto_save: bool = true
 
 var _defs: Dictionary[StringName, SettingDef] = {}
+var _ordered: Array[SettingDef] = []
 var _values: Dictionary[StringName, Variant] = {}
 
 
@@ -56,9 +57,10 @@ func get_definition(key: StringName) -> SettingDef:
 	return _defs.get(key)
 
 
-## The definitions in the order they are listed.
+## The definitions in use, in the order they are listed: a copy, without
+## empty slots or ignored duplicates.
 func get_definitions() -> Array[SettingDef]:
-	return definitions
+	return _ordered.duplicate()
 
 
 func save_to_disk() -> Error:
@@ -93,6 +95,7 @@ func load_from_disk() -> Error:
 
 func _index_definitions() -> void:
 	_defs.clear()
+	_ordered.clear()
 	for def in definitions:
 		if def == null:
 			continue
@@ -100,6 +103,7 @@ func _index_definitions() -> void:
 			push_error("SettingsStore: two definitions share the key '%s'. The second is ignored." % def.key)
 			continue
 		_defs[def.key] = def
+		_ordered.append(def)
 
 
 func _find(key: StringName) -> SettingDef:
