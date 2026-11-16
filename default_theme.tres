@@ -1,8 +1,11 @@
 [gd_resource type="Theme" format=3]
 
 [resource]
+MenuCategoryLabel/base_type = &"Label"
+MenuCategoryLabel/font_sizes/font_size = 24
 MenuItemButton/base_type = &"Button"
 MenuItemButton/font_sizes/font_size = 20
 MenuPanel/base_type = &"PanelContainer"
+MenuSettingLabel/base_type = &"Label"
 MenuTitle/base_type = &"Label"
 MenuTitle/font_sizes/font_size = 32
