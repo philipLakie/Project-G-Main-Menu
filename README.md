@@ -3,7 +3,7 @@
 Plain, ready-made menu screens for any game: main menu, pause menu and settings screen. They are deliberately unstyled. Each game supplies its own Theme and decides what the buttons do.
 
 - **Status:** Experimental (`v0.1.0`)
-- **Built so far:** `MenuMainScreen` only. The pause menu and settings screen are not implemented yet.
+- **Built so far:** `MenuMainScreen` and `MenuSettingsScreen`. The pause menu is not implemented yet.
 - **Mount path:** `addons/menu_screens/`
 - **Class prefix:** `Menu`
 - **Depends on:** `settings` `v0.1.0` or newer (the settings screen reads its definitions and store)
@@ -80,6 +80,12 @@ Behaviour:
 - A "Back" button emits `back_requested`.
 - A definition type the screen does not recognise is skipped with a warning.
 - A new definition added by the game appears with no change to this module.
+- An options setting with fewer `labels` than `values` shows the value itself for the missing labels.
+- A definition whose `category` is empty gets a row with no heading above it.
+
+Method: `get_initial_focus() -> Control` returns the first setting's control, or the Reset button when there are no rows.
+
+Node layout, for tests and for games that need to reach a row: `%Rows` holds a `Label` named `Category_<category>` before each category's rows, and one `HBoxContainer` per setting, named after its key, with children `Name` (the label) and `Value` (the control). The buttons are `%ResetButton` and `%BackButton`.
 
 ## How a game uses it
 
@@ -122,7 +128,7 @@ Because the screens have `back_requested` and `get_initial_focus()`, `screen_nav
 
 ## Demo
 
-**Currently:** the demo shows the main menu only, with toggles for `show_continue` and `show_quit` and a log of every signal. The parts below arrive with the other screens.
+**Currently:** the demo shows the main menu and the settings screen (opened from Settings, closed with Back), toggles for `show_continue` and `show_quit`, and a log of every signal and `setting_changed`. The pause menu and the theme swap are not built yet.
 
 `demo/menu_screens_demo.tscn` uses only this module and `settings`:
 
