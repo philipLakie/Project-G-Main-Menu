@@ -42,11 +42,15 @@ A game restyles everything by assigning its own Theme to the UI root and definin
 
 Exports:
 
-- `title_text: String`
+- `title_text: String` (empty hides the title)
 - `show_continue: bool = false`
 - `show_quit: bool = true` (a game hides this on web and mobile)
 
 Signals: `start_pressed`, `continue_pressed`, `settings_pressed`, `quit_pressed`
+
+Method: `get_initial_focus() -> Control` returns Continue when it is shown, otherwise Start. The screen does not grab focus itself; whoever shows it does. If a change hides the button that has focus, focus moves to `get_initial_focus()`.
+
+Scene-unique nodes, for tests and for games that need to reach them: `%Title`, `%ContinueButton`, `%StartButton`, `%SettingsButton`, `%QuitButton`.
 
 ### `MenuPauseScreen` (`pause_menu.tscn`)
 
@@ -117,6 +121,8 @@ Because the screens have `back_requested` and `get_initial_focus()`, `screen_nav
 - Animations and sound effects
 
 ## Demo
+
+**Currently:** the demo shows the main menu only, with toggles for `show_continue` and `show_quit` and a log of every signal. The parts below arrive with the other screens.
 
 `demo/menu_screens_demo.tscn` uses only this module and `settings`:
 
