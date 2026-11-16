@@ -5,6 +5,10 @@ extends Control
 
 signal back_requested
 
+## How many key or gamepad presses cross a slider whose definition has
+## step 0 (no snapping); such a slider has no step of its own to move by.
+@export var free_slider_presses: int = 20
+
 var _store: SettingsStore
 
 
@@ -81,6 +85,8 @@ func _make_control(def: SettingDef) -> Control:
 		slider.min_value = def.min_value
 		slider.max_value = def.max_value
 		slider.step = def.step
+		if def.step <= 0.0:
+			slider.gui_input.connect(_on_free_slider_input.bind(slider, def))
 		slider.value = value
 		slider.value_changed.connect(_on_value_chosen.bind(def.key))
 		return slider
@@ -97,6 +103,19 @@ func _make_control(def: SettingDef) -> Control:
 
 func _on_value_chosen(value: Variant, key: StringName) -> void:
 	_store.set_value(key, value)
+
+
+## A slider with step 0 ignores left/right, so move it by a fixed share of its range.
+func _on_free_slider_input(event: InputEvent, slider: HSlider, def: SettingSliderDef) -> void:
+	if free_slider_presses <= 0:
+		return
+	var amount := (def.max_value - def.min_value) / free_slider_presses
+	if event.is_action_pressed(&"ui_right", true):
+		slider.value += amount
+		slider.accept_event()
+	elif event.is_action_pressed(&"ui_left", true):
+		slider.value -= amount
+		slider.accept_event()
 
 
 func _on_option_selected(index: int, def: SettingOptionsDef) -> void:

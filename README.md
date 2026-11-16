@@ -85,6 +85,10 @@ Behaviour:
 
 Method: `get_initial_focus() -> Control` returns the first setting's control, or the Reset button when there are no rows.
 
+Export: `free_slider_presses: int = 20`. A slider whose definition has `step = 0` does not move with the keyboard or gamepad on its own, so the screen moves it by its range divided by this many presses. Mouse dragging stays unsnapped.
+
+The list scrolls to follow focus, so keyboard and gamepad reach rows below the visible area.
+
 Node layout, for tests and for games that need to reach a row: `%Rows` holds a `Label` named `Category_<category>` before each category's rows, and one `HBoxContainer` per setting, named after its key, with children `Name` (the label) and `Value` (the control). The buttons are `%ResetButton` and `%BackButton`.
 
 ## How a game uses it

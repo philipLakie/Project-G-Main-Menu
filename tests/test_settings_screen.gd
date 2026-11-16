@@ -183,6 +183,47 @@ func test_missing_option_labels_fall_back_to_values() -> void:
 	assert_eq([option.get_item_text(0), option.get_item_text(1)], ["Small", "m"])
 
 
+func _press(action: StringName) -> void:
+	var event := InputEventAction.new()
+	event.action = action
+	event.pressed = true
+	get_viewport().push_input(event)
+
+
+func test_keyboard_reaches_rows_below_the_fold() -> void:
+	var many: Array[SettingDef] = []
+	for i in 40:
+		var def := SettingToggleDef.new()
+		def.key = StringName("t%d" % i)
+		def.category = &"many"
+		many.append(def)
+	var screen: MenuSettingsScreen = SCENE.instantiate()
+	add_child_autofree(screen)
+	_screen.hide()
+	screen.setup(_make_store(many))
+	await wait_process_frames(2)
+	screen.get_node("%Rows/t0/Value").grab_focus()
+	for i in 39:
+		_press(&"ui_down")
+		await wait_process_frames(2)
+	assert_eq(get_viewport().gui_get_focus_owner(), screen.get_node("%Rows/t39/Value"))
+
+
+func test_free_slider_moves_with_keyboard() -> void:
+	var free_slider := SettingSliderDef.new()
+	free_slider.key = &"free"
+	free_slider.step = 0.0
+	free_slider.default_value = 0.5
+	var store := _make_store([free_slider])
+	var screen: MenuSettingsScreen = SCENE.instantiate()
+	add_child_autofree(screen)
+	_screen.hide()
+	screen.setup(store)
+	screen.get_node("%Rows/free/Value").grab_focus()
+	_press(&"ui_right")
+	assert_gt(store.get_value(&"free"), 0.5)
+
+
 func test_definition_without_category_has_no_heading() -> void:
 	var plain := SettingToggleDef.new()
 	plain.key = &"plain"
