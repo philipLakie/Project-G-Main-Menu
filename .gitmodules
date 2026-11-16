@@ -1,0 +1,4 @@
+[submodule "addons/settings"]
+	path = addons/settings
+	url = https://github.com/philipLakie/Project-G-Main-Menu
+	branch = settings
