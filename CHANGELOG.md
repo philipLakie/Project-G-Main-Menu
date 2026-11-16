@@ -1,5 +1,8 @@
 # Changelog
 
-## Unreleased
+## Unreleased (will be v0.1.0)
 
-- Repository created with the v0.1.0 spec as README. No code yet.
+- Added `SettingDef`, `SettingToggleDef`, `SettingSliderDef` and `SettingOptionsDef`.
+- Added `SettingsStore`: holds values, saves and loads them with `ConfigFile`.
+- Added `SettingsApplier`: applies audio bus volume, fullscreen, vsync and locale.
+- Added `demo/settings_demo.tscn` and the tests in `tests/`.

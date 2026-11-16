@@ -34,6 +34,13 @@ Three subclasses, one per kind of value:
 | `SettingSliderDef` | `min_value`, `max_value`, `step`, `default_value` (all `float`) | `float` |
 | `SettingOptionsDef` | `values: PackedStringArray`, `labels: PackedStringArray`, `default_value: String` | `String` (one of `values`) |
 
+Slider defaults are `min_value = 0.0`, `max_value = 1.0`, `step = 0.01`; a `step` of 0 turns snapping off.
+
+Every definition also has two methods the store calls. A game that adds its own definition type overrides them:
+
+- `get_default() -> Variant`: the value before the player changes anything
+- `sanitize(value: Variant) -> Variant`: the value in the form it is stored, or `null` if it is not allowed
+
 ### `SettingsStore` (Node)
 
 Holds the values. It does not touch audio, the window or any other engine system, so it is easy to test.
@@ -65,7 +72,9 @@ Behaviour:
 - `set_value` on an options setting with a value not in `values` changes nothing and reports an error.
 - `set_value` or `get_value` with an unknown key changes nothing, reports an error, and `get_value` returns `null`.
 - `setting_changed` is emitted only when the stored value really changes.
-- Two definitions with the same key is a setup error; report it loudly at startup.
+- Calling `load_from_disk` again later re-reads the file and emits `settings_loaded` again (not `setting_changed`).
+- `get_definition` with an unknown key returns `null` without an error.
+- Two definitions with the same key is a setup error; report it loudly at startup. The second one is ignored.
 - Use Godot's `ConfigFile` for the file.
 
 ### `SettingsApplier` (Node, optional)
