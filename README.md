@@ -140,7 +140,7 @@ Because the screens have `back_requested` and `get_initial_focus()`, `screen_nav
 
 ## Demo
 
-**Currently:** the demo shows the main menu and the settings screen (opened from Settings, closed with Back), toggles for `show_continue` and `show_quit`, and a log of every signal and `setting_changed`. The pause menu and the theme swap are not built yet.
+**Currently:** the demo shows all three screens: the main menu, the pause menu (from a "Show pause menu" button) and the settings screen (opened from either menu's Settings, and Back returns to that menu). It has toggles for `show_continue` and `show_quit`, and a log of every signal and `setting_changed`. The theme swap is not built yet.
 
 `demo/menu_screens_demo.tscn` uses only this module and `settings`:
 
