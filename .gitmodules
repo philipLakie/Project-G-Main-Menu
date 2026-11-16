@@ -2,3 +2,7 @@
 	path = addons/settings
 	url = https://github.com/philipLakie/Project-G-Main-Menu
 	branch = settings
+[submodule "addons/menu_screens"]
+	path = addons/menu_screens
+	url = https://github.com/philipLakie/Project-G-Main-Menu
+	branch = menu_screens
